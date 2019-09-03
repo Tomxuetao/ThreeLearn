@@ -46,16 +46,13 @@
 import { isURL } from '@/utils/validate'
 
 export default {
-    inject: ['refresh'],
+    inject: ['refresh', 'clientHeightAndWidth'],
     data () {
-        return {}
+        return {
+            documentClientHeight: this.clientHeightAndWidth.height
+        }
     },
     computed: {
-        documentClientHeight: {
-            get () {
-                return this.$store.state.common.documentClientHeight
-            }
-        },
         menuActiveName: {
             get () {
                 return this.$store.state.common.menuActiveName
@@ -81,7 +78,7 @@ export default {
             }
         },
         siteContentViewHeight () {
-            var height = this.documentClientHeight - 50 - 30 - 2
+            let height = this.documentClientHeight - 50 - 30 - 2
             if (this.$route.meta.isTab) {
                 height -= 40
                 return isURL(this.$route.meta.iframeUrl) ? { height: height + 'px' } : { minHeight: height + 'px' }

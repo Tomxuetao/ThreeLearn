@@ -26,6 +26,12 @@ export default {
                 this.$nextTick(() => {
                     this.$store.commit('common/updateContentIsNeedRefresh', false)
                 })
+            },
+            clientHeightAndWidth () {
+                return {
+                    width: this.$store.state.common.documentClientWidth,
+                    height: this.$store.state.common.documentClientHeight
+                }
             }
         }
     },
@@ -43,6 +49,14 @@ export default {
                 this.$store.commit('common/updateDocumentClientHeight', val)
             }
         },
+        documentClientWidth: {
+            get () {
+                return this.$store.state.common.documentClientWidth
+            },
+            set (val) {
+                this.$store.commit('common/updateDocumentClientWidth', val)
+            }
+        },
         sidebarFold: {
             get () {
                 return this.$store.state.common.sidebarFold
@@ -56,8 +70,10 @@ export default {
         // 重置窗口可视高度
         resetDocumentClientHeight () {
             this.documentClientHeight = document.documentElement['clientHeight']
+            this.documentClientWidth = document.documentElement['clientWidth']
             window.onresize = () => {
                 this.documentClientHeight = document.documentElement['clientHeight']
+                this.documentClientWidth = document.documentElement['clientWidth']
             }
         }
     }
