@@ -1,0 +1,45 @@
+.mod-menu {
+	.menu-list__input,
+	.icon-list__input {
+		> .el-input__inner {
+			cursor: pointer;
+		}
+		
+	}
+	&__icon-popover {
+		width: 458px;
+		overflow: hidden;
+	}
+	
+	&__icon-inner {
+		width: 478px;
+		max-height: 258px;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+	
+	&__icon-list {
+		width: 458px;
+		padding: 0;
+		margin: -8px 0 0 -8px;
+		> .el-button {
+			padding: 8px;
+			margin: 8px 0 0 8px;
+			
+			> span {
+				display: inline-block;
+				vertical-align: middle;
+				width: 18px;
+				height: 18px;
+				font-size: 18px;
+			}
+			
+		}
+	}
+	.icon-list__tips {
+		font-size: 18px;
+		text-align: center;
+		color: #e6a23c;
+		cursor: pointer;
+	}
+}
