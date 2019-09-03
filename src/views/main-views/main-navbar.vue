@@ -2,8 +2,8 @@
     <nav class="site-navbar" :class="'site-navbar--' + navbarLayoutType">
         <div class="site-navbar__header">
             <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
-                <a class="site-navbar__brand-lg" href="javascript:">Venus快速开发平台</a>
-                <a class="site-navbar__brand-mini" href="javascript:">Venus</a>
+                <a class="site-navbar__brand-lg" href="javascript:">ThreeJS学习</a>
+                <a class="site-navbar__brand-mini" href="javascript:">Three</a>
             </h1>
         </div>
         <div class="site-navbar__body clearfix">
@@ -32,9 +32,6 @@
 <script>
 
 export default {
-    data () {
-        return {}
-    },
     computed: {
         navbarLayoutType: {
             get () {

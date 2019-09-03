@@ -26,7 +26,8 @@ const mainRoutes = {
     redirect: { name: 'home' },
     meta: { title: '主入口整体布局' },
     children: [
-        { path: '/home', component: _import('common/home'), name: 'home', meta: { title: '首页' } }
+        { path: '/home', component: _import('common/home'), name: 'home', meta: { title: '首页' } },
+        { path: '/theme', component: _import('common/theme'), name: 'theme', meta: { title: '主题' } }
     ]
 }
 

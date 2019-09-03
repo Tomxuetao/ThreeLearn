@@ -9,7 +9,7 @@
                 class="site-sidebar__menu">
                 <el-menu-item index="home" @click="$router.push({ name: 'home' })">
                     <icon-svg name="shouye" class="site-sidebar__menu-icon"></icon-svg>
-                    <span slot="title">首页</span>
+                    <span slot="title">立方体动画</span>
                 </el-menu-item>
                 <sub-menu
                     v-for="menu in menuList"
