@@ -46,12 +46,7 @@
 import { isURL } from '@/utils/validate'
 
 export default {
-    inject: ['refresh', 'clientHeightAndWidth'],
-    data () {
-        return {
-            documentClientHeight: this.clientHeightAndWidth.height
-        }
-    },
+    inject: ['refresh'],
     computed: {
         menuActiveName: {
             get () {
@@ -75,6 +70,11 @@ export default {
             },
             set (val) {
                 this.$store.commit('common/updateMainTabsActiveName', val)
+            }
+        },
+        documentClientHeight: {
+            get () {
+                return this.$store.state.common.documentClientHeight
             }
         },
         siteContentViewHeight () {

@@ -26,12 +26,6 @@ export default {
                 this.$nextTick(() => {
                     this.$store.commit('common/updateContentIsNeedRefresh', false)
                 })
-            },
-            clientHeightAndWidth () {
-                return {
-                    width: this.$store.state.common.documentClientWidth,
-                    height: this.$store.state.common.documentClientHeight
-                }
             }
         }
     },
@@ -39,6 +33,9 @@ export default {
         MainNavbar,
         MainSidebar,
         MainContent
+    },
+    mounted () {
+        this.resetDocumentClientHeightAndWidth()
     },
     computed: {
         documentClientHeight: {
@@ -63,12 +60,8 @@ export default {
             }
         }
     },
-    mounted () {
-        this.resetDocumentClientHeight()
-    },
     methods: {
-        // 重置窗口可视高度
-        resetDocumentClientHeight () {
+        resetDocumentClientHeightAndWidth () {
             this.documentClientHeight = document.documentElement['clientHeight']
             this.documentClientWidth = document.documentElement['clientWidth']
             window.onresize = () => {
