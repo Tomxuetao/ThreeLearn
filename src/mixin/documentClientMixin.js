@@ -18,16 +18,17 @@ export default {
     },
     watch: {
         sidebarFold (oldValue, newValue) {
-            let height = this.documentClientHeight
-            let width = this.documentClientWidth
+            let height = this.documentClientHeight - this.wrapperHeight
+            let width = this.documentClientWidth - this.wrapperWidth
+            let foldedWidth = this.documentClientWidth - this.sidebarFoldWidth
             if (newValue) {
                 // 展开
-                this.camera.aspect = (width - 302) / (height - 125)
-                this.webGLRenderer.setSize(width - 302, height - 125)
+                this.camera.aspect = width / height
+                this.webGLRenderer.setSize(width , height, true)
             } else {
                 // 折叠
-                this.camera.aspect = (width - 136) / (height - 125)
-                this.webGLRenderer.setSize(width - 136, height - 125)
+                this.camera.aspect = foldedWidth / height
+                this.webGLRenderer.setSize(foldedWidth, height, true)
             }
             // 更新摄像机投影矩阵。在任何参数被改变以后必须被调用。
             this.camera.updateProjectionMatrix()

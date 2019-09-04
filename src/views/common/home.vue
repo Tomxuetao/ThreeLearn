@@ -9,19 +9,22 @@ export default {
     data () {
         return {
             webGLRenderer: {},
-            camera: {}
+            camera: {},
+            wrapperHeight: 126,
+            wrapperWidth: 302,
+            sidebarFoldWidth: 136
         }
     },
     mixins: [documentClientMixin],
     mounted () {
         this.$nextTick(() => {
-            this.initScene(this.documentClientWidth - 302, this.documentClientHeight - 125)
+            this.initScene(this.documentClientWidth - this.wrapperWidth, this.documentClientHeight - this.wrapperHeight)
         })
     },
     methods: {
         initScene (width, height) {
             let scene = new THREE.Scene()
-            this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
+            this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
             this.webGLRenderer = new THREE.WebGLRenderer({
                 antialias: true
             })
