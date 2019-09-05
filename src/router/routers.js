@@ -9,7 +9,7 @@ export default [
             {
                 name: '立方几何',
                 icon: 'daohang',
-                url: 'geom/box-geometry',
+                url: 'geom/box',
                 menuId: '1-1',
                 code: null,
                 list: []
@@ -17,7 +17,7 @@ export default [
             {
                 name: '圆形几何',
                 icon: 'daohang',
-                url: 'geom/circle-geometry',
+                url: 'geom/circle',
                 menuId: '1-2',
                 code: null,
                 list: []
@@ -25,8 +25,16 @@ export default [
             {
                 name: '圆锥几何',
                 icon: 'daohang',
-                url: 'geom/cone-geometry',
+                url: 'geom/cone',
                 menuId: '1-3',
+                code: null,
+                list: []
+            },
+            {
+                name: '圆柱几何',
+                icon: 'daohang',
+                url: 'geom/cylinder',
+                menuId: '1-4',
                 code: null,
                 list: []
             }
