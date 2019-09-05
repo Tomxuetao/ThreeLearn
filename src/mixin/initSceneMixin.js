@@ -58,6 +58,7 @@ export default {
                 antialias: true
             })
             this.webGLRenderer.setSize(width, height)
+            this.webGLRenderer.setPixelRatio(window.devicePixelRatio)
             this.addSomethingToScene(this.threeScene)
         }
     }

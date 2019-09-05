@@ -22,7 +22,7 @@ export default {
              * thetaLength — 圆锥底面圆扇区的中心角，通常被称为“θ”（西塔）。默认值是2*Pi，这使其成为一个完整的圆锥。
              * @type {ConeBufferGeometry}
              */
-            let geometry = new THREE.ConeBufferGeometry(5, 20, 32)
+            let geometry = new THREE.ConeBufferGeometry(5, 10, 32)
             let material = new THREE.MeshBasicMaterial({ color: 0xffff00 })
             let mesh = new THREE.Mesh(geometry, material)
             this.threeScene.add(mesh)
