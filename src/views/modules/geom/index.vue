@@ -103,6 +103,10 @@ export default {
                 this.geometry.dispose()
                 this.threeScene.remove(this.mesh)
             }
+            if (Object.keys(this.controls).length > 0) {
+                // 初始化状态
+                this.controls.reset()
+            }
             this.geometry = this.geometryArray[value]
             this.mesh = new THREE.Mesh(this.geometry, this.material)
             this.threeScene.add(this.mesh)
