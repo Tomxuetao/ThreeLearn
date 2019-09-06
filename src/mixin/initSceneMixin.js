@@ -53,7 +53,7 @@ export default {
     methods: {
         initScene (width, height) {
             this.threeScene = new THREE.Scene()
-            this.threeCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
+            this.threeCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
             this.webGLRenderer = new THREE.WebGLRenderer({
                 antialias: true
             })
