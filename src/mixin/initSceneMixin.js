@@ -16,6 +16,11 @@ export default {
                 return this.$store.state.common.documentClientHeight
             }
         },
+        canvasHeight: {
+            get () {
+                return this.$store.state.common.canvasHeight
+            }
+        },
         canvasWidth: {
             get () {
                 return this.$store.state.common.canvasWidth

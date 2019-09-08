@@ -154,8 +154,8 @@ export default {
         },
         onMouseMove (event) {
             // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
-            this.mouse.x = (event.clientX / document.getElementsByTagName('canvas')[0].width) * 2 - 1
-            this.mouse.y = -(event.clientY / document.getElementsByTagName('canvas')[0].height) * 2 + 1
+            this.mouse.x = (event.clientX / this.canvasWidth) * 2 - 1
+            this.mouse.y = -(event.clientY / this.canvasHeight) * 2 + 1
         }
     }
 }
