@@ -5,9 +5,9 @@ export default {
             threeScene: {},
             webGLRenderer: {},
             threeCamera: {},
-            wrapperHeight: this.$route.meta.isTab ? 166 : 126,
-            wrapperWidth: 302,
-            sidebarFoldWidth: 136
+            raycaster: new THREE.Raycaster(),
+            mouse: new THREE.Vector2(),
+            wrapperHeight: this.$route.meta.isTab ? 166 : 126
         }
     },
     computed: {
@@ -16,9 +16,12 @@ export default {
                 return this.$store.state.common.documentClientHeight
             }
         },
-        documentClientWidth: {
+        canvasWidth: {
             get () {
-                return this.$store.state.common.documentClientWidth
+                return this.$store.state.common.canvasWidth
+            },
+            set (val) {
+                this.$store.commit('common/updateCanvasWidth', val)
             }
         },
         sidebarFold: {
@@ -30,16 +33,16 @@ export default {
     watch: {
         sidebarFold (oldValue, newValue) {
             let height = this.documentClientHeight - this.wrapperHeight
-            let width = this.documentClientWidth - this.wrapperWidth
-            let foldedWidth = this.documentClientWidth - this.sidebarFoldWidth
             if (newValue) {
                 // 展开
-                this.threeCamera.aspect = width / height
-                this.webGLRenderer.setSize(width, height, true)
+                this.canvasWidth = this.canvasWidth - 166
+                this.threeCamera.aspect = this.canvasWidth / height
+                this.webGLRenderer.setSize( this.canvasWidth, height)
             } else {
                 // 折叠
-                this.threeCamera.aspect = foldedWidth / height
-                this.webGLRenderer.setSize(foldedWidth, height, true)
+                this.canvasWidth = this.canvasWidth + 166
+                this.threeCamera.aspect = this.canvasWidth / height
+                this.webGLRenderer.setSize(this.canvasWidth, height)
             }
             // 更新摄像机投影矩阵。在任何参数被改变以后必须被调用。
             this.threeCamera.updateProjectionMatrix()
@@ -47,7 +50,7 @@ export default {
     },
     mounted () {
         this.$nextTick(() => {
-            this.initScene(this.documentClientWidth - this.wrapperWidth, this.documentClientHeight - this.wrapperHeight)
+            this.initScene(this.canvasWidth, this.documentClientHeight - this.wrapperHeight)
         })
     },
     methods: {

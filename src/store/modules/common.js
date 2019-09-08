@@ -3,7 +3,8 @@ export default {
     state: {
         // 页面文档可视高度(随窗口改变大小)
         documentClientHeight: 0,
-        documentClientWidth: 0,
+        canvasHeight: 0,
+        canvasWidth: 0,
         // 导航条, 布局风格, default(默认) / inverse(反向)
         navbarLayoutType: 'default',
         // 侧边栏, 布局皮肤, light(浅色) / dark(黑色)
@@ -23,8 +24,11 @@ export default {
         updateDocumentClientHeight (state, height) {
             state.documentClientHeight = height
         },
-        updateDocumentClientWidth (state, width) {
-            state.documentClientWidth = width
+        updateCanvasHeight (state, canvasHeight) {
+            state.canvasHeight = canvasHeight
+        },
+        updateCanvasWidth (state, canvasWidth) {
+            state.canvasWidth = canvasWidth
         },
         updateNavbarLayoutType (state, type) {
             state.navbarLayoutType = type

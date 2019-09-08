@@ -77,11 +77,22 @@ export default {
                 return this.$store.state.common.documentClientHeight
             }
         },
+        canvasHeight: {
+            get () {
+                return this.$store.state.common.canvasHeight
+            },
+            set (val) {
+                this.$store.commit('common/updateCanvasHeight', val)
+            }
+        },
         siteContentViewHeight () {
             let height = this.documentClientHeight - 50 - 30 - 2
             if (this.$route.meta.isTab) {
                 height -= 40
+                this.canvasHeight = this.documentClientHeight - 166
                 return isURL(this.$route.meta.iframeUrl) ? { height: height + 'px' } : { minHeight: height + 'px' }
+            } else {
+                this.canvasHeight = this.documentClientHeight -126
             }
             return { minHeight: height + 'px' }
         }

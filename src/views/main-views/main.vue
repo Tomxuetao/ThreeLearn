@@ -46,12 +46,12 @@ export default {
                 this.$store.commit('common/updateDocumentClientHeight', val)
             }
         },
-        documentClientWidth: {
+        canvasWidth: {
             get () {
-                return this.$store.state.common.documentClientWidth
+                return this.$store.state.common.canvasWidth
             },
             set (val) {
-                this.$store.commit('common/updateDocumentClientWidth', val)
+                this.$store.commit('common/updateCanvasWidth', val)
             }
         },
         sidebarFold: {
@@ -63,10 +63,10 @@ export default {
     methods: {
         resetDocumentClientHeightAndWidth () {
             this.documentClientHeight = document.documentElement['clientHeight']
-            this.documentClientWidth = document.documentElement['clientWidth']
+            this.canvasWidth = document.documentElement['clientWidth'] - 302
             window.onresize = () => {
                 this.documentClientHeight = document.documentElement['clientHeight']
-                this.documentClientWidth = document.documentElement['clientWidth']
+                this.canvasWidth = document.documentElement['clientWidth'] -302
             }
         }
     }

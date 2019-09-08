@@ -82,6 +82,11 @@ export default {
             btnValue: '关闭动画'
         }
     },
+    mounted () {
+        this.$nextTick(() => {
+            window.addEventListener('click', this.onMouseMove, false)
+        })
+    },
     methods: {
         addSomethingToScene () {
             document.getElementById('container').appendChild(this.webGLRenderer.domElement)
@@ -117,6 +122,7 @@ export default {
         },
         animateHandle () {
             this.btnValue = '关闭动画'
+            // 通过摄像机和鼠标位置更新射线
             const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
                 window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
             const animate = () => {
@@ -145,6 +151,11 @@ export default {
             } else {
                 this.animateHandle()
             }
+        },
+        onMouseMove (event) {
+            // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
+            this.mouse.x = (event.clientX / document.getElementsByTagName('canvas')[0].width) * 2 - 1
+            this.mouse.y = -(event.clientY / document.getElementsByTagName('canvas')[0].height) * 2 + 1
         }
     }
 }
