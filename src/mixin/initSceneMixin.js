@@ -5,8 +5,9 @@ export default {
             threeScene: {},
             webGLRenderer: {},
             threeCamera: {},
+            cameraHelper: {},
             raycaster: new THREE.Raycaster(),
-            mouse: new THREE.Vector2(),
+            mouseVector: new THREE.Vector2(),
             wrapperHeight: this.$route.meta.isTab ? 166 : 126
         }
     },
@@ -42,7 +43,7 @@ export default {
                 // 展开
                 this.canvasWidth = this.canvasWidth - 166
                 this.threeCamera.aspect = this.canvasWidth / height
-                this.webGLRenderer.setSize( this.canvasWidth, height)
+                this.webGLRenderer.setSize(this.canvasWidth, height)
             } else {
                 // 折叠
                 this.canvasWidth = this.canvasWidth + 166
@@ -61,13 +62,15 @@ export default {
     methods: {
         initScene (width, height) {
             this.threeScene = new THREE.Scene()
-            this.threeCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
+            this.threeCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 10000)
+            this.threeCamera.position.z = 25000
             this.webGLRenderer = new THREE.WebGLRenderer({
                 antialias: true
             })
+            this.webGLRenderer.autoClear = false
             this.webGLRenderer.setSize(width, height)
             this.webGLRenderer.setPixelRatio(window.devicePixelRatio)
-            this.addSomethingToScene(this.threeScene)
+            this.addSomethingToScene()
         }
     }
 }

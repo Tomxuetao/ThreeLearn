@@ -86,13 +86,14 @@ export default {
             }
         },
         siteContentViewHeight () {
-            let height = this.documentClientHeight - 50 - 30 - 2
+            let that = this
+            let height = this.documentClientHeight - 82
             if (this.$route.meta.isTab) {
                 height -= 40
-                this.canvasHeight = this.documentClientHeight - 166
+                that.canvasHeight = this.documentClientHeight - 166
                 return isURL(this.$route.meta.iframeUrl) ? { height: height + 'px' } : { minHeight: height + 'px' }
             } else {
-                this.canvasHeight = this.documentClientHeight -126
+                that.canvasHeight = this.documentClientHeight - 126
             }
             return { minHeight: height + 'px' }
         }

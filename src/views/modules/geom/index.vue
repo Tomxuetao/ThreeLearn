@@ -84,7 +84,7 @@ export default {
     },
     mounted () {
         this.$nextTick(() => {
-            window.addEventListener('click', this.onMouseMove, false)
+            document.getElementById('container').addEventListener('click', this.onMouseMove, false)
         })
     },
     methods: {
@@ -153,9 +153,15 @@ export default {
             }
         },
         onMouseMove (event) {
+            event.preventDefault()
             // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
-            this.mouse.x = (event.clientX / this.canvasWidth) * 2 - 1
-            this.mouse.y = -(event.clientY / this.canvasHeight) * 2 + 1
+            this.mouseVector.x = (event.clientX / this.canvasWidth) * 2 - 1
+            this.mouseVector.y = -(event.clientY / this.canvasHeight) * 2 + 1
+            this.raycaster.setFromCamera(this.mouseVector, this.threeCamera)
+            let intersects = this.raycaster.intersectObjects(this.threeScene.children)
+            if (intersects.length > 0) {
+                intersects[0].object.material.color.set(0xff0000)
+            }
         }
     }
 }
