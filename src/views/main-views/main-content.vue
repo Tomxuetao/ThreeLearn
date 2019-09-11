@@ -91,11 +91,11 @@ export default {
             if (this.$route.meta.isTab) {
                 height -= 40
                 that.canvasHeight = this.documentClientHeight - 166
-                return isURL(this.$route.meta.iframeUrl) ? { height: height + 'px' } : { minHeight: height + 'px' }
+                return isURL(this.$route.meta.iframeUrl) ? { height: height + 'px' } : { height: height + 'px' }
             } else {
                 that.canvasHeight = this.documentClientHeight - 126
             }
-            return { minHeight: height + 'px' }
+            return { height: height + 'px' }
         }
     },
     methods: {

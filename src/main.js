@@ -6,8 +6,11 @@ import '@/plugins/element-ui/index'
 import '@/plugins/element-ui-theme/index'
 import '@/icons'
 import '@scss/index.scss'
+import httpRequest from '@/utils/httpRequest'
+
 Vue.config.productionTip = false
 
+Vue.prototype.$http = httpRequest
 new Vue({
     router,
     store,
