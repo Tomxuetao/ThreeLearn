@@ -4,7 +4,7 @@
 
 <script>
 import { createCustomMeshWall } from '@/utils/customMeshUtil'
-// import * as L7 from '@antv/l7'
+import * as L7 from '@antv/l7'
 import { carTravel } from '@/utils/mockData'
 export default {
     name: 'index',
@@ -56,11 +56,11 @@ export default {
             })
             this.object3DLayer = new AMap.Object3DLayer()
             this.gaoDeMap.add(this.object3DLayer)
-            // this.antScene = new L7.Scene({
-            //     map: this.gaoDeMap,
-            //     mapStyle: 'amap://styles/928ad1524556f6cb662af22ab386a5db'
-            // })
-            // this.createTravelHandle()
+            this.antScene = new L7.Scene({
+                map: this.gaoDeMap,
+                mapStyle: 'amap://styles/928ad1524556f6cb662af22ab386a5db'
+            })
+            this.createTravelHandle()
         },
         pitchAnimateHandle (speed = 0.5, maxPitch = 60) {
             const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
