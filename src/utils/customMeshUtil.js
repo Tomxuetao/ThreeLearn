@@ -22,6 +22,52 @@ export function updateMesh (meshObject, meshArray, color, selectedColor) {
 }
 
 /**
+ * 构架建筑物
+ * @param object3DLayer
+ * @param geoJson
+ */
+export function createBuildingByGeoJson (object3DLayer, geoJson = {}) {
+    let tempObject = analysisGeoJson(geoJson)
+    let boundary = tempObject.boundary
+    let properties = tempObject.properties
+    let layer = tempObject.properties['layer']
+    let height = properties['height'] || 100
+    for (let i = 0; i < layer; i++) {
+        createMesh(object3DLayer, boundary, properties, height * i, height * (i + 1))
+        createMeshLine(object3DLayer, boundary, height * (i + 1), 2)
+    }
+}
+
+export function createCustomMeshWall (object3DLayer, boundsArray = []) {
+    const gaoDeMap = object3DLayer.getMap()
+    let topColor = [0, 1, 1, 0.3]
+    let bottomColor = [0, 185 / 255, 227 / 255, 0.1]
+    for (let n = 0; n < boundsArray.length; n++) {
+        let segment = boundsArray[n].length
+        /* eslint-disable */
+        let customMesh = new AMap.Object3D.Mesh()
+        let geometry = customMesh.geometry
+        let verticesLength = segment * 2
+        for (let i = 0; i < segment; i++) {
+            let temp = gaoDeMap.lngLatToGeodeticCoord(boundsArray[n][i])
+            geometry.vertices.push(temp.x, temp.y, 0) // 底部顶点
+            geometry.vertices.push(temp.x, temp.y, -200) // 顶部顶点
+            geometry.vertexColors.push.apply(geometry.vertexColors, bottomColor) // 底部颜色
+            geometry.vertexColors.push.apply(geometry.vertexColors, topColor) // 顶部颜色
+            let bottomIndex = i * 2
+            let topIndex = bottomIndex + 1
+            let nextBottomIndex = (bottomIndex + 2) % verticesLength
+            let nextTopIndex = (bottomIndex + 3) % verticesLength
+            geometry.faces.push(bottomIndex, topIndex, nextTopIndex) // 侧面三角形1
+            geometry.faces.push(bottomIndex, nextTopIndex, nextBottomIndex) // 侧面三角形2
+        }
+        customMesh.transparent = true // 如果使用了透明颜色，请设置true
+        customMesh.backOrFront = 'both'
+        object3DLayer.add(customMesh)
+    }
+}
+
+/**
  * 创建单个MeshLine
  * @param object3DLayer
  * @param boundary
@@ -57,23 +103,6 @@ function updateMeshColor (mesh, color) {
     }
     mesh.needUpdate = true
     mesh.reDraw()
-}
-
-/**
- * 构架建筑物
- * @param object3DLayer
- * @param geoJson
- */
-export function createBuildingByGeoJson (object3DLayer, geoJson = {}) {
-    let tempObject = analysisGeoJson(geoJson)
-    let boundary = tempObject.boundary
-    let properties = tempObject.properties
-    let layer = tempObject.properties['layer']
-    let height = properties['height'] || 100
-    for (let i = 0; i < layer; i++) {
-        createMesh(object3DLayer, boundary, properties, height * i, height * (i + 1))
-        createMeshLine(object3DLayer, boundary, height * (i + 1), 2)
-    }
 }
 
 /**
@@ -159,9 +188,9 @@ function rgbaToArray (colorString) {
  */
 function analysisGeoJson (geoJson) {
     let properties = geoJson.features[0].properties
-    let gcj02BoundaryArray = geoJson.features[0].geometry.coordinates[0]
+    let boundaryArray = geoJson.features[0].geometry.coordinates[0]
     return {
-        boundary: gcj02BoundaryArray,
+        boundary: boundaryArray,
         properties: properties
     }
 }
