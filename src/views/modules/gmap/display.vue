@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { createCustomMeshWall } from '@/utils/customMeshUtil'
+import { createCustomMeshWall, createBuildingByGeoJson } from '@/utils/customMeshUtil'
 import * as L7 from '@antv/l7'
 import { carTravel } from '@/utils/mockData'
 export default {
@@ -89,10 +89,15 @@ export default {
                 })
             }).then(({ data }) => {
                 if (data && data.code === 0) {
-                    let boundaryArray = data.geoJson.features[0].geometry.coordinates[0]
-                    this.gaoDeMap.add(this.createPolyline(boundaryArray))
-                    createCustomMeshWall(this.object3DLayer, [boundaryArray])
-                    this.createRegionHandle(data.geoJson)
+                    if (data.geoJson.features[0].properties.type === 3) {
+                        let boundaryArray = data.geoJson.features[0].geometry.coordinates[0]
+                        this.gaoDeMap.add(this.createPolygon(boundaryArray))
+                        createCustomMeshWall(this.object3DLayer, [boundaryArray])
+                        this.createRegionHandle(data.geoJson)
+                    } else {
+                        this.object3DLayer.clear()
+                        createBuildingByGeoJson(this.object3DLayer, data.geoJson)
+                    }
                 }
             })
         },
@@ -103,19 +108,20 @@ export default {
                 hideWithoutStyle: true,
                 areas: [{ //围栏1
                     rejectTexture: false,
-                    color1: 'ff99ff00',
-                    color2: 'ff999900',
+                    color1: 'ff0050ae',
+                    color2: 'ff013c90',
                     path: boundaryArray
                 }]
             }
             this.buildingLayer.setStyle(options)
         },
-        createPolyline (boundaryArray) {
-            return new AMap.Polyline({
+        createPolygon (boundaryArray) {
+            return new AMap.Polygon({
                 bubble: true,
-                fillColor: 'green',
-                fillOpacity: 0.4,
-                strokeWeight: 1,
+                fillColor: '#1669bd',
+                fillOpacity: 0.6,
+                strokeWeight: 2,
+                zIndex: 0,
                 path: boundaryArray
             })
         },

@@ -56,15 +56,25 @@ export default {
         methods: {
             createMapHandle () {
                 /* eslint-disable */
+                this.buildingLayer = new AMap.Buildings({ zIndex: 130, merge: false, sort: false, zooms: [10, 20] })
                 this.gaoDeMap = new AMap.Map('container', {
-                    showIndoorMap: false,
                     resizeEnable: true,
+                    rotateEnable: true,
                     defaultCursor: 'pointer',
-                    zooms: [6, 23],
+                    labelzIndex: 1500,
+                    zooms: [10, 22],
                     zoom: 17,
-                    viewMode: '2D',
+                    viewMode: '3D',
                     expandZoomRange: true,
-                    center: [120.182527, 30.324699]
+                    pitch: 0,
+                    showIndoorMap: false,
+                    center: [120.182527, 30.324699],
+                    features:['road'],
+                    layers: [
+                        this.buildingLayer,
+                        new AMap.TileLayer()
+                    ],
+                    mapStyle: 'amap://styles/928ad1524556f6cb662af22ab386a5db'
                 })
             },
             
