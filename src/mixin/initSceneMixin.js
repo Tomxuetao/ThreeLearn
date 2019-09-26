@@ -6,8 +6,6 @@ export default {
             webGLRenderer: {},
             threeCamera: {},
             cameraHelper: {},
-            raycaster: new THREE.Raycaster(),
-            mouseVector: new THREE.Vector2(),
             wrapperHeight: this.$route.meta.isTab ? 166 : 126
         }
     },

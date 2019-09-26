@@ -26,7 +26,7 @@ export default {
     mixins: [initSceneMixin],
     data () {
         return {
-            options: [{
+            options: Object.freeze([{
                 value: 0,
                 label: 'BoxBufferGeometry'
             }, {
@@ -56,9 +56,9 @@ export default {
             }, {
                 value: 9,
                 label: 'TorusKnotBufferGeometry'
-            }],
+            }]),
             value: 0,
-            geometryArray: [
+            geometryArray: Object.freeze([
                 new THREE.BoxBufferGeometry(2, 2, 2),
                 new THREE.CircleBufferGeometry(2, 60),
                 new THREE.CylinderBufferGeometry(1, 1, 1, 8, 8),
@@ -69,29 +69,29 @@ export default {
                 new THREE.SphereBufferGeometry(2, 32, 32),
                 new THREE.TorusBufferGeometry(1, 0.4, 12, 12),
                 new THREE.TorusKnotBufferGeometry(1, 0.4)
-            ],
+            ]),
             mesh: {},
             geometry: {},
-            material: new THREE.MeshBasicMaterial({
-                color: 0xfefefe,
-                wireframe: true,
-                opacity: 0.5
-            }),
             controls: {},
             animateId: 0,
+            raycaster: new THREE.Raycaster(),
             btnValue: '关闭动画'
         }
     },
     mounted () {
         this.$nextTick(() => {
-            document.getElementById('container').addEventListener('click', this.onMouseMove, false)
+            document.getElementById('container').addEventListener('click', this.onMouseClick, false)
         })
     },
     methods: {
         addSomethingToScene () {
             document.getElementById('container').appendChild(this.webGLRenderer.domElement)
             this.geometry = this.geometryArray[0]
-            this.mesh = new THREE.Mesh(this.geometryArray[0], this.material)
+            this.mesh = new THREE.Mesh(this.geometryArray[0], new THREE.MeshBasicMaterial({
+                color: 0xfefefe,
+                wireframe: true,
+                opacity: 0.5
+            }))
             this.threeScene.add(this.mesh)
             this.threeCamera.position.z = 5
             /**
@@ -113,7 +113,11 @@ export default {
                 this.controls.reset()
             }
             this.geometry = this.geometryArray[value]
-            this.mesh = new THREE.Mesh(this.geometry, this.material)
+            this.mesh = new THREE.Mesh(this.geometry, new THREE.MeshBasicMaterial({
+                color: 0xfefefe,
+                wireframe: true,
+                opacity: 0.5
+            }))
             this.threeScene.add(this.mesh)
             if (this.animateId !== 0) {
                 this.cancelAnimateHandle()
@@ -135,15 +139,8 @@ export default {
         },
         cancelAnimateHandle () {
             this.btnValue = '开启动画'
-            const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-                window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
             const cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame
             cancelAnimationFrame(this.animateId)
-            const animate = () => {
-                requestAnimationFrame(animate)
-                this.webGLRenderer.render(this.threeScene, this.threeCamera)
-            }
-            animate()
         },
         changeAnimateHandle () {
             if (this.btnValue !== '开启动画') {
@@ -152,12 +149,13 @@ export default {
                 this.animateHandle()
             }
         },
-        onMouseMove (event) {
+        onMouseClick (event) {
             event.preventDefault()
             // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
-            this.mouseVector.x = (event.clientX / this.canvasWidth) * 2 - 1
-            this.mouseVector.y = -(event.clientY / this.canvasHeight) * 2 + 1
-            this.raycaster.setFromCamera(this.mouseVector, this.threeCamera)
+            let mouseVector = new THREE.Vector2()
+            mouseVector.x = (event.clientX / this.canvasWidth) * 2 - 1
+            mouseVector.y = -(event.clientY / this.canvasHeight) * 2 + 1
+            this.raycaster.setFromCamera(mouseVector, this.threeCamera)
             let intersects = this.raycaster.intersectObjects(this.threeScene.children)
             if (intersects.length > 0) {
                 intersects[0].object.material.color.set(0xff0000)
