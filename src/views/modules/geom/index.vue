@@ -26,6 +26,7 @@ export default {
     mixins: [initSceneMixin],
     data () {
         return {
+            value: 0,
             options: Object.freeze([{
                 value: 0,
                 label: 'BoxBufferGeometry'
@@ -57,7 +58,6 @@ export default {
                 value: 9,
                 label: 'TorusKnotBufferGeometry'
             }]),
-            value: 0,
             geometryArray: Object.freeze([
                 new THREE.BoxBufferGeometry(2, 2, 2),
                 new THREE.CircleBufferGeometry(2, 60),
@@ -74,6 +74,7 @@ export default {
             geometry: {},
             controls: {},
             animateId: 0,
+            mouseVector: new THREE.Vector2(),
             raycaster: new THREE.Raycaster(),
             btnValue: '关闭动画'
         }
@@ -126,7 +127,6 @@ export default {
         },
         animateHandle () {
             this.btnValue = '关闭动画'
-            // 通过摄像机和鼠标位置更新射线
             const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
                 window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
             const animate = () => {
@@ -134,6 +134,7 @@ export default {
                 this.mesh.rotation.x += 0.01
                 this.mesh.rotation.y += 0.01
                 this.webGLRenderer.render(this.threeScene, this.threeCamera)
+                this.cameraHelper.update()
             }
             animate()
         },
@@ -152,13 +153,15 @@ export default {
         onMouseClick (event) {
             event.preventDefault()
             // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
-            let mouseVector = new THREE.Vector2()
-            mouseVector.x = (event.clientX / this.canvasWidth) * 2 - 1
-            mouseVector.y = -(event.clientY / this.canvasHeight) * 2 + 1
-            this.raycaster.setFromCamera(mouseVector, this.threeCamera)
+            this.mouseVector.x = (event.clientX / this.canvasWidth) * 2 - 1
+            this.mouseVector.y = -(event.clientY / this.canvasHeight) * 2 + 1
+            // 通过摄像机和鼠标位置更新射线
+            this.raycaster.setFromCamera(this.mouseVector, this.threeCamera)
             let intersects = this.raycaster.intersectObjects(this.threeScene.children)
             if (intersects.length > 0) {
                 intersects[0].object.material.color.set(0xff0000)
+            } else {
+                this.mesh.material.color.set(0xffffff)
             }
         }
     }
