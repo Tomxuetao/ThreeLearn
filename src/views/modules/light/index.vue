@@ -15,7 +15,7 @@
 </template>
 
 <script>
-// import * as THREE from 'three'
+import * as THREE from 'three'
 import { LightUtil } from '@/utils/lightUtil'
 import { OrbitControls } from '@/plugins/three-js/OrbitControls'
 import initSceneMixin from '@/mixin/initSceneMixin'
@@ -46,41 +46,89 @@ export default {
                     value: 5,
                     label: 'HemisphereLight（半球光）'
                 }
-            ]),
-            lightUtil: {}
+            ])
         }
     },
     methods: {
         addSomethingToScene () {
-            this.controls = new OrbitControls(this.threeCamera, this.webGLRenderer.domElement)
-            document.getElementById('container').appendChild(this.webGLRenderer.domElement)
+            this.webGLRenderer.shadowMap.enabled = true
+            this.webGLRenderer.shadowMap.type = THREE.PCFSoftShadowMap
+            this.displaySpotLight()
+        },
+        changeLight (value) {
+            this.disposeAll()
+            switch (value) {
+            case 0:
+                this.displaySpotLight()
+                break
+            case 1:
+                this.displayPointLight()
+                break
+            case 2:
+                break
+            case 3:
+                break
+            case 4:
+                break
+            case 5:
+                break
+            case 6:
+                break
+            }
+        },
+        displaySpotLight () {
             this.threeCamera.position.set(65, 8, -10)
-            this.threeCamera.fov = 35
-            this.threeCamera.far = 1000
             this.threeCamera.updateProjectionMatrix()
-            this.lightUtil = new LightUtil(this.threeScene, this.threeCamera)
-            this.lightUtil.createSpotLightHandle()
+
+            this.controls = new OrbitControls(this.threeCamera, this.webGLRenderer.domElement)
+
+            document.getElementById('container').appendChild(this.webGLRenderer.domElement)
+
+            const lightUtil = new LightUtil(this.threeScene, this.threeCamera)
+            lightUtil.createSpotLightHandle()
+
             let render = () => {
-                this.lightUtil.lightHelper.update()
-                this.lightUtil.cameraHelper.update()
+                lightUtil.lightHelper.update()
+                lightUtil.shadowCameraHelper.update()
                 this.webGLRenderer.render(this.threeScene, this.threeCamera)
             }
             render()
             this.controls.addEventListener('change', render)
         },
-        changeLight (value) {
+        displayPointLight () {
+            this.threeCamera.position.set(0, 15, 150)
+            this.threeCamera.lookAt(0, 0, 0)
+            this.threeScene.background = new THREE.Color(0x040306)
+            this.threeScene.fog = new THREE.Fog(0x040306, 10, 300)
+            const lightUtil = new LightUtil(this.threeScene, this.threeCamera)
+            lightUtil.createPointLightHandle()
+            let pointLightArray = []
+            this.threeScene.children.forEach(item => {
+                if (item.type === 'PointLight') {
+                    pointLightArray.push(item)
+                }
+            })
+
+            let render = () => {
+                let time = Date.now() * 0.00025
+                pointLightArray.forEach(item => {
+                    item.position.x = Math.sin(time * 0.7) * 150
+                    item.position.z = Math.cos(time * 0.3) * 150
+                })
+                this.webGLRenderer.render(this.threeScene, this.threeCamera)
+            }
+            render()
         },
-        createSpotLightHandle () {
-        },
-        createPointLightHandle () {
-        },
-        createAmbientLightHandle () {
-        },
-        createRectAreaLightHandle () {
-        },
-        createDirectionalLightHandle () {
-        },
-        createHemisphereLightHandle () {
+        disposeAll () {
+            if (Object.keys(this.controls).length > 0) {
+                this.controls.dispose()
+            }
+            this.threeScene.dispose()
+            this.webGLRenderer.clearDepth()
+            this.webGLRenderer.dispose()
+
+            // 清空场景
+            this.threeScene.children = []
         }
     }
 }
