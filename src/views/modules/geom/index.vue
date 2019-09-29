@@ -20,7 +20,7 @@
 <script>
 import * as THREE from 'three'
 import initSceneMixin from '@/mixin/initSceneMixin'
-import { OrbitControls } from '@/plugins/three-js/OrbitControls'
+import { OrbitControls } from '@/plugins/three-js/controls/OrbitControls'
 export default {
     name: 'index',
     mixins: [initSceneMixin],

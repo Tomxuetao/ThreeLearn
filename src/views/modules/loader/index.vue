@@ -1,0 +1,168 @@
+<template>
+    <div id="container" style="width: 100%;height: 100%">
+        <div class="wrapper-select">
+            <el-select v-model="value" placeholder="请选择" style="width: 240px" @change="changeLoader">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+    </div>
+</template>
+
+<script>
+import * as THREE from 'three'
+import { OrbitControls } from '@/plugins/three-js/controls/OrbitControls'
+import { LoaderUtil } from '@/utils/loaderUtil'
+import initSceneMixin from '@/mixin/initSceneMixin'
+
+export default {
+    name: 'loader',
+    mixins: [initSceneMixin],
+    data () {
+        return {
+            controls: {},
+            value: 0,
+            animateId: 0,
+            options: Object.freeze([
+                {
+                    value: 0,
+                    label: 'FileLoader'
+                }, {
+                    value: 1,
+                    label: 'FontLoader'
+                }, {
+                    value: 2,
+                    label: 'ImageLoader'
+                }, {
+                    value: 3,
+                    label: 'AudioLoader'
+                }, {
+                    value: 4,
+                    label: 'ObjectLoader'
+                }, {
+                    value: 5,
+                    label: 'TextureLoader'
+                }, {
+                    value: 6,
+                    label: 'MaterialLoader'
+                }, {
+                    value: 7,
+                    label: 'AnimationLoader'
+                }, {
+                    value: 8,
+                    label: 'DataTextureLoader'
+                }, {
+                    value: 9,
+                    label: 'ImageBitmapLoader'
+                }, {
+                    value: 10,
+                    label: 'CubeTextureLoader'
+                }, {
+                    value: 11,
+                    label: 'BufferGeometryLoader'
+                }, {
+                    value: 12,
+                    label: 'CompressedTextureLoader'
+                }
+            ])
+        }
+    },
+
+    methods: {
+        addSomethingToScene () {
+            document.getElementById('container').appendChild(this.webGLRenderer.domElement)
+        },
+
+        changeLoader (value) {
+            this.disposeAll()
+            switch (value) {
+            case 0:
+                break
+            case 1:
+                this.createFontHandle()
+                break
+            case 2:
+                this.createImageHandle()
+                break
+            case 3:
+                break
+            case 4:
+                break
+            case 5:
+                break
+            case 6:
+                break
+            case 7:
+                break
+            case 8:
+                break
+            case 9:
+                break
+            case 10:
+                break
+            case 11:
+                break
+            case 12:
+                break
+            }
+        },
+
+        createFontHandle () {
+            this.threeScene.background = new THREE.Color(0xf0f0f0)
+
+            this.threeCamera.position.set(0, -50, 600)
+
+            const loaderUtil = new LoaderUtil(this.threeScene)
+            loaderUtil.loaderFont()
+
+            this.controls = new OrbitControls(this.threeCamera, this.webGLRenderer.domElement)
+            this.controls.target.set(0, 0, 0)
+            this.controls.update()
+
+            let animateHandle = () => {
+                requestAnimationFrame(animateHandle)
+                this.webGLRenderer.render(this.threeScene, this.threeCamera)
+            }
+            animateHandle()
+        },
+
+        createImageHandle () {
+            const loaderUtil = new LoaderUtil(this.threeScene)
+            loaderUtil.loaderImage()
+            this.webGLRenderer.render(this.threeScene, this.threeCamera)
+        },
+
+        disposeAll () {
+            this.threeScene.background = new THREE.Color(0x000000)
+            this.webGLRenderer.setViewport(0, 0, this.canvasWidth, this.documentClientHeight - this.wrapperHeight)
+            if (this.animateId) {
+                cancelAnimationFrame(this.animateId)
+                this.animateId = 0
+            }
+            if (Object.keys(this.controls).length > 0) {
+                this.controls.dispose()
+                this.controls = {}
+            }
+            this.threeScene.dispose()
+            this.webGLRenderer.clear()
+            this.webGLRenderer.clearDepth()
+            this.webGLRenderer.dispose()
+            // 清空场景
+            this.threeScene.children = []
+        }
+    }
+}
+</script>
+
+<style scoped>
+    .wrapper-select {
+        display: flex;
+        position: absolute;
+        top: 35px;
+        right: 50px;
+    }
+</style>

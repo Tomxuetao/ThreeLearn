@@ -68,6 +68,8 @@ export default {
             this.webGLRenderer.autoClear = false
             this.webGLRenderer.setSize(width, height)
             this.webGLRenderer.setPixelRatio(window.devicePixelRatio)
+            this.webGLRenderer.enabled = true
+            this.webGLRenderer.shadowMap.type = THREE.PCFSoftShadowMap
             this.addSomethingToScene()
         }
     }

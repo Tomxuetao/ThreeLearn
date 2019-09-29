@@ -49,6 +49,23 @@ export default [
                 list: []
             }
         ]
+    },
+    {
+        name: '文件加载',
+        icon: 'daohang',
+        url: null,
+        menuId: '4',
+        code: null,
+        list: [
+            {
+                name: '加载文件',
+                icon: 'daohang',
+                url: 'loader/index',
+                menuId: '4-0',
+                code: null,
+                list: []
+            }
+        ]
     }
     // {
     //     name: '地图数据',
