@@ -195,7 +195,7 @@ class LightUtil {
 
         let sky = new Sky()
 
-        let uniforms = sky.material.uniforms;
+        let uniforms = sky.material.uniforms
 
         uniforms['turbidity'].value = 10
         uniforms['rayleigh'].value = 2
@@ -214,7 +214,6 @@ class LightUtil {
         cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter
 
         this.threeScene.background = cubeCamera.renderTarget
-
 
         let theta = Math.PI * (parameters.inclination - 0.5)
         let phi = 2 * Math.PI * (parameters.azimuth - 0.5)

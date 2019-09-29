@@ -91,8 +91,10 @@ export default {
             case 3:
                 break
             case 4:
+                this.createObjectHandle()
                 break
             case 5:
+                this.createTextureHandle()
                 break
             case 6:
                 break
@@ -124,7 +126,7 @@ export default {
             this.controls.update()
 
             let animateHandle = () => {
-                requestAnimationFrame(animateHandle)
+                this.animateId = requestAnimationFrame(animateHandle)
                 this.webGLRenderer.render(this.threeScene, this.threeCamera)
             }
             animateHandle()
@@ -133,11 +135,48 @@ export default {
         createImageHandle () {
             const loaderUtil = new LoaderUtil(this.threeScene)
             loaderUtil.loaderImage()
-            this.webGLRenderer.render(this.threeScene, this.threeCamera)
+            let animateHandle = () => {
+                this.animateId = requestAnimationFrame(animateHandle)
+                this.webGLRenderer.render(this.threeScene, this.threeCamera)
+            }
+            animateHandle()
+        },
+
+        createObjectHandle () {
+            this.threeCamera.position.z = 10
+
+            const loaderUtil = new LoaderUtil(this.threeScene)
+            loaderUtil.loaderObject()
+
+            let animateHandle = () => {
+                this.animateId = requestAnimationFrame(animateHandle)
+                this.webGLRenderer.render(this.threeScene, this.threeCamera)
+            }
+            animateHandle()
+        },
+
+        createTextureHandle () {
+            this.threeCamera.position.z = 800
+
+            const loaderUtil = new LoaderUtil(this.threeScene)
+            loaderUtil.loaderTexture()
+
+            let mesh = new THREE.Mesh()
+            let animateHandle = () => {
+                this.animateId = requestAnimationFrame(animateHandle)
+                this.webGLRenderer.render(this.threeScene, this.threeCamera)
+                if (this.threeScene.children[0] !== undefined) {
+                    mesh = this.threeScene.children[0]
+                    mesh.rotation.x += 0.005
+                    mesh.rotation.y += 0.01
+                }
+            }
+            animateHandle()
         },
 
         disposeAll () {
             this.threeScene.background = new THREE.Color(0x000000)
+            this.threeCamera.position.set(0, 0, 0)
             this.webGLRenderer.setViewport(0, 0, this.canvasWidth, this.documentClientHeight - this.wrapperHeight)
             if (this.animateId) {
                 cancelAnimationFrame(this.animateId)
