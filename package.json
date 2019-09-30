@@ -2,6 +2,7 @@
   "name": "ThreeLearn",
   "version": "0.1.0",
   "private": true,
+  "IDEA": "http://www.jetbrains.com",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
