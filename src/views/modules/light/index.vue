@@ -215,7 +215,7 @@ export default {
 
             const lightUtil = new LightUtil(this.threeScene, this.threeCamera)
             let light = new THREE.DirectionalLight(0xffffff, 0.8)
-            lightUtil.createHemisphereLightHandle(index, this.webGLRenderer)
+            lightUtil.createHemisphereLightHandle(light, this.webGLRenderer)
 
             this.controls = new OrbitControls(this.threeCamera, this.webGLRenderer.domElement)
             this.controls.maxPolarAngle = Math.PI * 0.495
