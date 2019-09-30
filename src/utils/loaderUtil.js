@@ -1,6 +1,8 @@
 import * as THREE from 'three'
-import grassland from '@/plugins/three-js/textures/grassland.jpg'
-import crate from  '@/plugins/three-js/textures/crate.gif'
+import crate from '@/plugins/three-js/textures/crate.gif'
+import grid from '@/plugins/three-js/textures/grid.jpg'
+
+import { OBJLoader } from '@/plugins/three-js/loaders/OBJLoader'
 
 class LoaderUtil {
     constructor (threeScene) {
@@ -39,7 +41,7 @@ class LoaderUtil {
             // make shape ( N.B. edge view not visible )
 
             text = new THREE.Mesh(geometry, matLite)
-            text.position.z = -150
+            text.position.z = -100
             this.threeScene.add(text)
 
             // make line shape ( N.B. edge view remains visible )
@@ -48,7 +50,6 @@ class LoaderUtil {
 
             for (let i = 0; i < shapes.length; i++) {
                 let shape = shapes[i]
-
                 if (shape.holes && shape.holes.length > 0) {
                     for (let j = 0; j < shape.holes.length; j++) {
                         let hole = shape.holes[j]
@@ -76,12 +77,21 @@ class LoaderUtil {
     }
 
     loaderImage () {
-        let loader = new THREE.ImageLoader()
+        let object, texture
+        let loadModel = () => {
+            object.traverse(child => {
+                if (child.isMesh) child.material.map = texture
+            })
+            object.position.y = -80
+            this.threeScene.add(object)
+        }
+        let manager = new THREE.LoadingManager(loadModel)
+        let textureLoader = new THREE.TextureLoader(manager)
+        texture = textureLoader.load(grid)
 
-        loader.load(grassland, image => {
-            let canvas = document.getElementsByName('canvas')[0]
-            let context = canvas.getContext('2d')
-            context.drawImage(image, canvas.clientWidth, canvas.clientHeight)
+        let loader = new OBJLoader(manager)
+        loader.load('./models/male.obj', obj => {
+            object = obj
         }, undefined, onError => {
             console.log(onError)
         })
@@ -106,9 +116,20 @@ class LoaderUtil {
             let material = new THREE.MeshBasicMaterial({
                 map: texture
             })
-            let geometry = new THREE.BoxBufferGeometry( 200, 200, 200 )
-            let mesh = new THREE.Mesh( geometry, material )
+            let geometry = new THREE.BoxBufferGeometry(200, 200, 200)
+            let mesh = new THREE.Mesh(geometry, material)
             this.threeScene.add(mesh)
+        }, undefined, onError => {
+            console.log(onError)
+        })
+    }
+
+    loaderAudio (oceanAmbientSound) {
+        let loader = new THREE.AudioLoader()
+        loader.load('./audio/song.ogg', audioBuffer => {
+            // 给一个加载器对象设置音频对象的缓存
+            oceanAmbientSound.setBuffer(audioBuffer)
+            oceanAmbientSound.play()
         }, undefined, onError => {
             console.log(onError)
         })

@@ -24,9 +24,9 @@ export default [
         code: null,
         list: [
             {
-                name: 'CameraHelper',
+                name: '辅助集合',
                 icon: 'daohang',
-                url: 'help/camera',
+                url: 'helper/index',
                 menuId: '2-0',
                 code: null,
                 list: []

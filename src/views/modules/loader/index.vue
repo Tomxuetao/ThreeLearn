@@ -27,6 +27,7 @@ export default {
             controls: {},
             value: 0,
             animateId: 0,
+            oceanAmbientSound: {},
             options: Object.freeze([
                 {
                     value: 0,
@@ -81,6 +82,7 @@ export default {
             this.disposeAll()
             switch (value) {
             case 0:
+                THREE.Cache.enabled = true
                 break
             case 1:
                 this.createFontHandle()
@@ -89,6 +91,7 @@ export default {
                 this.createImageHandle()
                 break
             case 3:
+                this.createAudioHandle()
                 break
             case 4:
                 this.createObjectHandle()
@@ -133,8 +136,35 @@ export default {
         },
 
         createImageHandle () {
+            this.threeCamera.position.z = 250
+
+            let ambientLight = new THREE.AmbientLight(0xcccccc, 0.4)
+            this.threeScene.add(ambientLight)
+
+            let pointLight = new THREE.PointLight(0xffffff, 0.8)
+            this.threeCamera.add(pointLight)
+
             const loaderUtil = new LoaderUtil(this.threeScene)
             loaderUtil.loaderImage()
+
+            let animateHandle = () => {
+                this.animateId = requestAnimationFrame(animateHandle)
+                this.webGLRenderer.render(this.threeScene, this.threeCamera)
+            }
+            animateHandle()
+        },
+
+        createAudioHandle () {
+            // 初始化一个监听
+            let audioListener = new THREE.AudioListener()
+            this.threeCamera.add(audioListener)
+
+            this.oceanAmbientSound = new THREE.Audio(audioListener)
+            this.threeScene.add(this.oceanAmbientSound)
+
+            const loaderUtil = new LoaderUtil(this.threeScene)
+            loaderUtil.loaderAudio(this.oceanAmbientSound)
+
             let animateHandle = () => {
                 this.animateId = requestAnimationFrame(animateHandle)
                 this.webGLRenderer.render(this.threeScene, this.threeCamera)
@@ -161,12 +191,14 @@ export default {
             const loaderUtil = new LoaderUtil(this.threeScene)
             loaderUtil.loaderTexture()
 
-            let mesh = new THREE.Mesh()
+            let mesh = {}
             let animateHandle = () => {
                 this.animateId = requestAnimationFrame(animateHandle)
                 this.webGLRenderer.render(this.threeScene, this.threeCamera)
-                if (this.threeScene.children[0] !== undefined) {
+                if (this.threeScene.children.length > 0 && Object.keys(mesh).length === 0) {
                     mesh = this.threeScene.children[0]
+                }
+                if (Object.keys(mesh).length > 0) {
                     mesh.rotation.x += 0.005
                     mesh.rotation.y += 0.01
                 }
@@ -175,9 +207,12 @@ export default {
         },
 
         disposeAll () {
+            if (Object.keys(this.oceanAmbientSound).length > 0) {
+                this.oceanAmbientSound.stop()
+            }
             this.threeScene.background = new THREE.Color(0x000000)
+            this.threeScene.position.set(0, 0, 0)
             this.threeCamera.position.set(0, 0, 0)
-            this.webGLRenderer.setViewport(0, 0, this.canvasWidth, this.documentClientHeight - this.wrapperHeight)
             if (this.animateId) {
                 cancelAnimationFrame(this.animateId)
                 this.animateId = 0
