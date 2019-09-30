@@ -117,6 +117,15 @@ export default {
                 break
             case 12:
                 break
+            case 13:
+                this.createVertexNormalsHelperHandle()
+                break
+            case 14:
+                break
+            case 15:
+                break
+            case 16:
+                break
             }
         },
 
@@ -162,63 +171,25 @@ export default {
             }
             animateHandle()
         },
-        createCameraHelperScene (aspect) {
-            let perspectiveCamera = new THREE.PerspectiveCamera(50, aspect, 150, 1000)
 
-            this.cameraHelper = new THREE.CameraHelper(perspectiveCamera)
-            this.threeScene.add(this.cameraHelper)
+        createVertexNormalsHelperHandle () {
+            this.threeCamera.position.z = 800
 
-            perspectiveCamera.rotation.y = Math.PI
-            this.cameraRig = new THREE.Group()
-            this.cameraRig.add(perspectiveCamera)
-            this.threeScene.add(this.cameraRig)
-            this.createMeshHandle()
-            const animateHandle = () => {
+            const helperUtil = new HelperUtil(this.threeScene, this.threeCamera)
+            helperUtil.vertexNormalsHelper()
+            let mesh = {}
+            let animateHandle = () => {
                 this.animateId = requestAnimationFrame(animateHandle)
-                let r = Date.now() * 0.0005
-                this.mesh.position.x = 700 * Math.cos(r)
-                this.mesh.position.z = 700 * Math.sin(r)
-                this.mesh.position.y = 700 * Math.sin(r)
-                this.mesh.children[0].position.x = 70 * Math.cos(2 * r)
-                this.mesh.children[0].position.z = 70 * Math.sin(r)
-                perspectiveCamera.fov = 35 + 30 * Math.sin(0.5 * r)
-                perspectiveCamera.far = this.mesh.position.length()
-                this.cameraRig.lookAt(this.mesh.position)
                 this.webGLRenderer.render(this.threeScene, this.threeCamera)
+                if (this.threeScene.children.length > 0 && Object.keys(mesh).length === 0) {
+                    mesh = this.threeScene.children[0]
+                }
+                if (Object.keys(mesh).length > 0) {
+                    mesh.rotation.x += 0.005
+                    mesh.rotation.y += 0.01
+                }
             }
-            animateHandle()()
-        },
-        createMeshHandle () {
-            this.mesh = new THREE.Mesh(
-                new THREE.SphereBufferGeometry(100, 16, 8),
-                new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true })
-            )
-            this.threeScene.add(this.mesh)
-            let mesh2 = new THREE.Mesh(
-                new THREE.SphereBufferGeometry(50, 16, 8),
-                new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true })
-            )
-            mesh2.position.y = 150
-            this.mesh.add(mesh2)
-            let mesh3 = new THREE.Mesh(
-                new THREE.SphereBufferGeometry(5, 16, 8),
-                new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true })
-            )
-            mesh3.position.z = 150
-            this.cameraRig.add(mesh3)
-            /**
-             * 构建背景（点信息）
-             */
-            let geometry = new THREE.BufferGeometry()
-            let vertices = []
-            for (let i = 0; i < 10000; i++) {
-                vertices.push(THREE.Math.randFloatSpread(2000))
-                vertices.push(THREE.Math.randFloatSpread(2000))
-                vertices.push(THREE.Math.randFloatSpread(2000))
-            }
-            geometry.addAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
-            let particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x888888 }))
-            this.threeScene.add(particles)
+            animateHandle()
         },
 
         disposeAll () {
