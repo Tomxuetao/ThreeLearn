@@ -7,12 +7,12 @@
             <icon-svg :name="menu.icon || ''" class="site-sidebar__menu-icon"></icon-svg>
             <span>{{ menu.name }}</span>
         </template>
-        <sub-menu
+        <sidebar-sub-menu
             v-for="item in menu.list"
             :key="item.menuId"
             :menu="item"
             :dynamicMenuRoutes="dynamicMenuRoutes">
-        </sub-menu>
+        </sidebar-sub-menu>
     </el-submenu>
     <el-menu-item v-else :index="menu.menuId + ''" @click="gotoRouteHandle(menu)">
         <icon-svg :name="menu.icon || ''" class="site-sidebar__menu-icon"></icon-svg>
@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import SubMenu from './main-sidebar-sub-menu'
+import SidebarSubMenu from './main-sidebar-sub-menu'
 
 export default {
-    name: 'sub-menu',
+    name: 'sidebar-sub-menu',
     props: {
         menu: {
             type: Object,
@@ -36,7 +36,7 @@ export default {
         }
     },
     components: {
-        SubMenu
+        SidebarSubMenu
     },
     computed: {
         sidebarLayoutSkin: {

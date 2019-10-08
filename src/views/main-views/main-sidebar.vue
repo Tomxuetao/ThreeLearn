@@ -11,19 +11,19 @@
                     <icon-svg name="shouye" class="site-sidebar__menu-icon"></icon-svg>
                     <span slot="title">首页</span>
                 </el-menu-item>
-                <sub-menu
+                <sidebar-sub-menu
                     v-for="menu in menuList"
                     :key="menu.menuId"
                     :menu="menu"
                     :dynamicMenuRoutes="dynamicMenuRoutes">
-                </sub-menu>
+                </sidebar-sub-menu>
             </el-menu>
         </div>
     </aside>
 </template>
 
 <script>
-import SubMenu from './main-sidebar-sub-menu'
+import SidebarSubMenu from './main-sidebar-sub-menu'
 import { isURL } from '@/utils/validate'
 
 export default {
@@ -33,7 +33,7 @@ export default {
         }
     },
     components: {
-        SubMenu
+        SidebarSubMenu
     },
     computed: {
         sidebarLayoutSkin: {

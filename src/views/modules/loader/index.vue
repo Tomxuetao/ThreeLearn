@@ -28,7 +28,7 @@ export default {
             value: 0,
             animateId: 0,
             oceanAmbientSound: {},
-            options: Object.freeze([
+            options: [
                 {
                     value: 0,
                     label: 'FileLoader'
@@ -69,7 +69,7 @@ export default {
                     value: 12,
                     label: 'CompressedTextureLoader'
                 }
-            ])
+            ]
         }
     },
 
