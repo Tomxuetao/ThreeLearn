@@ -18,6 +18,10 @@ import * as THREE from 'three'
 import { OrbitControls } from '@/plugins/three-js/controls/OrbitControls'
 import { LoaderUtil } from '@/utils/loaderUtil'
 import initSceneMixin from '@/mixin/initSceneMixin'
+import { HelperUtil } from '@/utils/helperUtil'
+import { GLTFLoader } from '@/plugins/three-js/loaders/GLTFLoader'
+
+import { ColladaLoader } from '@/plugins/three-js/loaders/ColladaLoader'
 
 export default {
     name: 'loader',
@@ -76,6 +80,7 @@ export default {
     methods: {
         addSomethingToScene () {
             document.getElementById('container').appendChild(this.webGLRenderer.domElement)
+            this.createFileHandle()
         },
 
         changeLoader (value) {
@@ -83,6 +88,7 @@ export default {
             switch (value) {
             case 0:
                 THREE.Cache.enabled = true
+                this.createFileHandle()
                 break
             case 1:
                 this.createFontHandle()
@@ -100,6 +106,7 @@ export default {
                 this.createTextureHandle()
                 break
             case 6:
+                this.createMaterialHandle()
                 break
             case 7:
                 break
@@ -114,6 +121,33 @@ export default {
             case 12:
                 break
             }
+        },
+
+        createFileHandle () {
+            this.threeCamera.position.z = 15
+
+            let ambientLight = new THREE.AmbientLight(0xffffff, 0.2)
+            this.threeScene.add(ambientLight)
+
+            let pointLight = new THREE.PointLight(0xffffff, 0.7)
+            this.threeCamera.add(pointLight)
+            this.threeScene.add(this.threeCamera)
+
+            let loader = new GLTFLoader()
+            loader.load('./models/gltf/LeePerrySmith/LeePerrySmith.glb', gltf => {
+                let gltfMesh = gltf.scene.children[0]
+                this.threeScene.add(gltfMesh)
+            })
+
+            this.controls = new OrbitControls(this.threeCamera, this.webGLRenderer.domElement)
+            this.controls.target.set(0, 0, 0)
+            this.controls.update()
+
+            let animateHandle = () => {
+                this.animateId = requestAnimationFrame(animateHandle)
+                this.webGLRenderer.render(this.threeScene, this.threeCamera)
+            }
+            animateHandle()
         },
 
         createFontHandle () {
@@ -206,7 +240,45 @@ export default {
             animateHandle()
         },
 
+        createMaterialHandle () {
+            this.threeCamera.position.z = 2500
+
+            // const helperUtil = new HelperUtil(this.threeScene, this.threeCamera)
+            // helperUtil.cameraHelper()
+
+            let ambientLight = new THREE.AmbientLight(0xffffff, 0.2)
+            this.threeScene.add(ambientLight)
+
+            let directionalLight = new THREE.DirectionalLight(0xffffff, 0.7)
+            this.threeScene.add(directionalLight)
+
+            let spotLight = new THREE.SpotLight(0xffffff, 0.7)
+            this.threeCamera.add(spotLight)
+            this.threeScene.add(this.threeCamera)
+
+            this.controls = new OrbitControls(this.threeCamera, this.webGLRenderer.domElement)
+            this.controls.target.set(0, 0, 0)
+            this.controls.update()
+
+            let loader = new ColladaLoader()
+            loader.load('./models/collada/test2.dae', collada => {
+                let colladaMesh = collada.scene.children[0]
+                colladaMesh.scale.set(100, 100, 100)
+                colladaMesh.position.set(-656.715, -3437.28, -184.694)
+                this.threeScene.add(colladaMesh)
+                console.log(colladaMesh.position)
+                // this.threeCamera.lookAt(colladaMesh.position)
+            })
+
+            let animateHandle = () => {
+                this.animateId = requestAnimationFrame(animateHandle)
+                this.webGLRenderer.render(this.threeScene, this.threeCamera)
+            }
+            animateHandle()
+        },
+
         disposeAll () {
+            this.threeScene.remove(this.threeCamera)
             if (Object.keys(this.oceanAmbientSound).length > 0) {
                 this.oceanAmbientSound.stop()
             }
@@ -221,6 +293,9 @@ export default {
                 this.controls.dispose()
                 this.controls = {}
             }
+
+            this.threeCamera.children = []
+
             this.threeScene.dispose()
             this.webGLRenderer.clear()
             this.webGLRenderer.clearDepth()

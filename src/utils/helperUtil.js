@@ -19,7 +19,6 @@ class HelperUtil {
     }
 
     cameraHelper () {
-        console.log(this.threeCamera.aspect)
         let perspectiveCamera = new THREE.PerspectiveCamera(50, this.threeCamera.aspect, 150, 1000)
 
         let cameraHelper = new THREE.CameraHelper(perspectiveCamera)
