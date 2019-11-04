@@ -48,7 +48,7 @@ module.exports = {
         config
             .plugin('html')
             .tap(args => {
-                args[0].title = 'Venus快速开发'
+                args[0].title = 'ThreeLearn'
                 args[0].favicon = 'public/favicon.ico'
                 return args
             })
