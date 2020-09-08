@@ -9,7 +9,7 @@ export default [
             {
                 name: '几何集合',
                 icon: 'daohang',
-                url: 'geom/index',
+                url: 'geom/geom',
                 menuId: '1-0',
                 code: null,
                 list: []
@@ -26,7 +26,7 @@ export default [
             {
                 name: '辅助集合',
                 icon: 'daohang',
-                url: 'helper/index',
+                url: 'helper/helper',
                 menuId: '2-0',
                 code: null,
                 list: []
@@ -43,7 +43,7 @@ export default [
             {
                 name: '灯光集合',
                 icon: 'daohang',
-                url: 'light/index',
+                url: 'light/light',
                 menuId: '3-0',
                 code: null,
                 list: []
@@ -60,44 +60,28 @@ export default [
             {
                 name: '加载文件',
                 icon: 'daohang',
-                url: 'loader/index',
+                url: 'loader/loader',
                 menuId: '4-0',
                 code: null,
                 list: []
             }
         ]
+    },
+    {
+        name: '自定义绘制',
+        icon: 'daohang',
+        url: null,
+        menuId: '5',
+        code: null,
+        list: [
+            {
+                name: '自定义绘制',
+                icon: 'daohang',
+                url: 'custom/custom',
+                menuId: '5-0',
+                code: null,
+                list: []
+            }
+        ]
     }
-    // {
-    //     name: '地图数据',
-    //     icon: 'daohang',
-    //     url: null,
-    //     menuId: '2',
-    //     code: null,
-    //     list: [
-    //         {
-    //             name: '边界采集',
-    //             icon: 'daohang',
-    //             url: 'gmap/collection',
-    //             menuId: '2-0',
-    //             code: null,
-    //             list: []
-    //         },
-    //         {
-    //             name: '边界列表',
-    //             icon: 'daohang',
-    //             url: 'gmap/boundary',
-    //             menuId: '2-1',
-    //             code: null,
-    //             list: []
-    //         },
-    //         {
-    //             name: '三维展示',
-    //             icon: 'daohang',
-    //             url: 'gmap/display',
-    //             menuId: '2-2',
-    //             code: null,
-    //             list: []
-    //         }
-    //     ]
-    // }
 ]

@@ -1,8 +1,9 @@
 import * as THREE from 'three'
-import crate from '@/plugins/three-js/textures/crate.gif'
-import grid from '@/plugins/three-js/textures/grid.jpg'
 
-import { OBJLoader } from '@/plugins/three-js/loaders/OBJLoader'
+import crate from '@/assets/images/crate.gif'
+import grid from '@/assets/images/grid.jpg'
+
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 
 class LoaderUtil {
     constructor (threeScene) {

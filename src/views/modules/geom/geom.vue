@@ -20,9 +20,9 @@
 <script>
 import * as THREE from 'three'
 import initSceneMixin from '@/mixin/initSceneMixin'
-import { OrbitControls } from '@/plugins/three-js/controls/OrbitControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 export default {
-    name: 'index',
+    name: 'geom',
     mixins: [initSceneMixin],
     data () {
         return {
@@ -104,6 +104,7 @@ export default {
             this.controls = new OrbitControls(this.threeCamera, this.webGLRenderer.domElement)
             this.animateHandle()
         },
+
         changeMesh (value) {
             if (Object.keys(this.mesh).length > 0) {
                 this.geometry.dispose()
@@ -125,6 +126,7 @@ export default {
             }
             this.animateHandle()
         },
+
         animateHandle () {
             this.btnValue = '关闭动画'
             const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
@@ -134,15 +136,16 @@ export default {
                 this.mesh.rotation.x += 0.01
                 this.mesh.rotation.y += 0.01
                 this.webGLRenderer.render(this.threeScene, this.threeCamera)
-                this.cameraHelper.update()
             }
             animate()
         },
+
         cancelAnimateHandle () {
             this.btnValue = '开启动画'
             const cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame
             cancelAnimationFrame(this.animateId)
         },
+
         changeAnimateHandle () {
             if (this.btnValue !== '开启动画') {
                 this.cancelAnimateHandle()
@@ -150,6 +153,7 @@ export default {
                 this.animateHandle()
             }
         },
+
         onMouseClick (event) {
             event.preventDefault()
             // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)

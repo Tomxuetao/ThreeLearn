@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper'
 
 class HelperUtil {
     constructor (threeScene, threeCamera) {
@@ -14,7 +15,7 @@ class HelperUtil {
         geometry.scale(scaleFactor, scaleFactor, scaleFactor)
         let mesh = new THREE.Mesh(geometry, material)
         this.threeScene.add(mesh)
-        let vertexNormalsHelper = new THREE.VertexNormalsHelper(mesh, 10)
+        let vertexNormalsHelper = new VertexNormalsHelper(mesh, 10)
         mesh.add(vertexNormalsHelper)
     }
 
@@ -58,7 +59,7 @@ class HelperUtil {
             vertices.push(THREE.Math.randFloatSpread(2000))
             vertices.push(THREE.Math.randFloatSpread(2000))
         }
-        geometry.addAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
         let particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0x888888 }))
         this.threeScene.add(particles)
     }

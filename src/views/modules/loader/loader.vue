@@ -15,13 +15,12 @@
 
 <script>
 import * as THREE from 'three'
-import { OrbitControls } from '@/plugins/three-js/controls/OrbitControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { LoaderUtil } from '@/utils/loaderUtil'
 import initSceneMixin from '@/mixin/initSceneMixin'
-import { HelperUtil } from '@/utils/helperUtil'
-import { GLTFLoader } from '@/plugins/three-js/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
-import { ColladaLoader } from '@/plugins/three-js/loaders/ColladaLoader'
+import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
 
 export default {
     name: 'loader',
@@ -296,7 +295,6 @@ export default {
 
             this.threeCamera.children = []
 
-            this.threeScene.dispose()
             this.webGLRenderer.clear()
             this.webGLRenderer.clearDepth()
             this.webGLRenderer.dispose()

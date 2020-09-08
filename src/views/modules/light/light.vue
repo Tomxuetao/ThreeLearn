@@ -17,12 +17,12 @@
 <script>
 import * as THREE from 'three'
 import { LightUtil } from '@/utils/lightUtil'
-import { OrbitControls } from '@/plugins/three-js/controls/OrbitControls'
-import { TrackballControls } from '@/plugins/three-js/controls/TrackballControls'
-import { StereoEffect } from '@/plugins/three-js/effects/StereoEffect'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls'
+import { StereoEffect } from 'three/examples/jsm/effects/StereoEffect'
 import initSceneMixin from '@/mixin/initSceneMixin'
 export default {
-    name: 'index',
+    name: 'light',
     mixins: [initSceneMixin],
     data () {
         return {
@@ -249,7 +249,6 @@ export default {
                 this.controls.dispose()
                 this.controls = {}
             }
-            this.threeScene.dispose()
             this.webGLRenderer.clear()
             this.webGLRenderer.clearDepth()
             this.webGLRenderer.dispose()

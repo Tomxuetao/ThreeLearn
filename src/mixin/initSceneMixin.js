@@ -52,11 +52,17 @@ export default {
             this.threeCamera.updateProjectionMatrix()
         }
     },
+
     mounted () {
         this.$nextTick(() => {
             this.initScene(this.canvasWidth, this.documentClientHeight - this.wrapperHeight)
         })
     },
+
+    beforeDestroy () {
+
+    },
+
     methods: {
         initScene (width, height) {
             this.threeScene = new THREE.Scene()

@@ -204,7 +204,6 @@ export default {
                 this.controls.dispose()
                 this.controls = {}
             }
-            this.threeScene.dispose()
             this.webGLRenderer.clear()
             this.webGLRenderer.clearDepth()
             this.webGLRenderer.dispose()

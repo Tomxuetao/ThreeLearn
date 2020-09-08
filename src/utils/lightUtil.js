@@ -1,17 +1,17 @@
 import * as THREE from 'three'
-import { RectAreaLightUniformsLib } from '@/plugins/three-js/lights/RectAreaLightUniformsLib'
-import { Water } from '@/plugins/three-js/objects/Water'
-import { Sky } from '@/plugins/three-js/objects/Sky'
+import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib'
+import { Water } from 'three/examples/jsm/objects/Water'
+import { Sky } from 'three/examples/jsm/objects/Sky'
 
-import disturb from '@/plugins/three-js/textures/disturb.jpg'
-import grassland from '@/plugins/three-js/textures/grassland.jpg'
-import nx from '@/plugins/three-js/textures/cube/nx.jpg'
-import ny from '@/plugins/three-js/textures/cube/ny.jpg'
-import nz from '@/plugins/three-js/textures/cube/nz.jpg'
-import px from '@/plugins/three-js/textures/cube/px.jpg'
-import py from '@/plugins/three-js/textures/cube/py.jpg'
-import pz from '@/plugins/three-js/textures/cube/pz.jpg'
-import waterNormals from '@/plugins/three-js/textures/waternormals.jpg'
+import disturb from '@/assets/images/disturb.jpg'
+import grassland from '@/assets/images/grassland.jpg'
+import nx from '@/assets/images/cube/nx.jpg'
+import ny from '@/assets/images/cube/ny.jpg'
+import nz from '@/assets/images/cube/nz.jpg'
+import px from '@/assets/images/cube/px.jpg'
+import py from '@/assets/images/cube/py.jpg'
+import pz from '@/assets/images/cube/pz.jpg'
+import waterNormals from '@/assets/images/waternormals.jpg'
 
 class LightUtil {
     constructor (threeScene, threeCamera) {
@@ -199,7 +199,6 @@ class LightUtil {
 
         uniforms['turbidity'].value = 10
         uniforms['rayleigh'].value = 2
-        uniforms['luminance'].value = 1
         uniforms['mieCoefficient'].value = 0.005
         uniforms['mieDirectionalG'].value = 0.8
 
@@ -209,7 +208,10 @@ class LightUtil {
             azimuth: 0.205
         }
 
-        let cubeCamera = new THREE.CubeCamera(0.1, 1, 512)
+        const renderTarget = new THREE.WebGLCubeRenderTarget(128, {
+            format: THREE.RGBFormat, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter
+        })
+        const cubeCamera = new THREE.CubeCamera(0.1, 1, renderTarget)
         cubeCamera.renderTarget.texture.generateMipmaps = true
         cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter
 
