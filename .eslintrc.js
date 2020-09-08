@@ -44,7 +44,7 @@ module.exports = {
         'no-dupe-args': 'error',
         // 禁止在对象字面量中出现重复名称的键名
         'no-dupe-keys': 'error',
-        'indent': ['error', 4]
+        'indent': ['error', 2]
     },
     parserOptions: {
         parser: 'babel-eslint'

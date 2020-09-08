@@ -38,30 +38,30 @@
 <script>
 
 export default {
-    computed: {
-        navbarLayoutType: {
-            get () {
-                return this.$store.state.common.navbarLayoutType
-            }
-        },
-        sidebarFold: {
-            get () {
-                return this.$store.state.common.sidebarFold
-            },
-            set (val) {
-                this.$store.commit('common/updateSidebarFold', val)
-            }
-        },
-        mainTabs: {
-            get () {
-                return this.$store.state.common.mainTabs
-            },
-            set (val) {
-                this.$store.commit('common/updateMainTabs', val)
-            }
-        }
+  computed: {
+    navbarLayoutType: {
+      get () {
+        return this.$store.state.common.navbarLayoutType
+      }
     },
-    methods: {
+    sidebarFold: {
+      get () {
+        return this.$store.state.common.sidebarFold
+      },
+      set (val) {
+        this.$store.commit('common/updateSidebarFold', val)
+      }
+    },
+    mainTabs: {
+      get () {
+        return this.$store.state.common.mainTabs
+      },
+      set (val) {
+        this.$store.commit('common/updateMainTabs', val)
+      }
     }
+  },
+  methods: {
+  }
 }
 </script>

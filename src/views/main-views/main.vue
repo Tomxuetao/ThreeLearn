@@ -18,57 +18,57 @@ import MainSidebar from './main-sidebar'
 import MainContent from './main-content'
 
 export default {
-    provide () {
-        return {
-            // 刷新
-            refresh () {
-                this.$store.commit('common/updateContentIsNeedRefresh', true)
-                this.$nextTick(() => {
-                    this.$store.commit('common/updateContentIsNeedRefresh', false)
-                })
-            }
-        }
-    },
-    components: {
-        MainNavbar,
-        MainSidebar,
-        MainContent
-    },
-    mounted () {
-        this.resetDocumentClientHeightAndWidth()
-    },
-    computed: {
-        documentClientHeight: {
-            get () {
-                return this.$store.state.common.documentClientHeight
-            },
-            set (val) {
-                this.$store.commit('common/updateDocumentClientHeight', val)
-            }
-        },
-        canvasWidth: {
-            get () {
-                return this.$store.state.common.canvasWidth
-            },
-            set (val) {
-                this.$store.commit('common/updateCanvasWidth', val)
-            }
-        },
-        sidebarFold: {
-            get () {
-                return this.$store.state.common.sidebarFold
-            }
-        }
-    },
-    methods: {
-        resetDocumentClientHeightAndWidth () {
-            this.documentClientHeight = document.documentElement['clientHeight']
-            this.canvasWidth = document.documentElement['clientWidth'] - 300
-            window.onresize = () => {
-                this.documentClientHeight = document.documentElement['clientHeight']
-                this.canvasWidth = document.documentElement['clientWidth'] - 300
-            }
-        }
+  provide () {
+    return {
+      // 刷新
+      refresh () {
+        this.$store.commit('common/updateContentIsNeedRefresh', true)
+        this.$nextTick(() => {
+          this.$store.commit('common/updateContentIsNeedRefresh', false)
+        })
+      }
     }
+  },
+  components: {
+    MainNavbar,
+    MainSidebar,
+    MainContent
+  },
+  mounted () {
+    this.resetDocumentClientHeightAndWidth()
+  },
+  computed: {
+    documentClientHeight: {
+      get () {
+        return this.$store.state.common.documentClientHeight
+      },
+      set (val) {
+        this.$store.commit('common/updateDocumentClientHeight', val)
+      }
+    },
+    canvasWidth: {
+      get () {
+        return this.$store.state.common.canvasWidth
+      },
+      set (val) {
+        this.$store.commit('common/updateCanvasWidth', val)
+      }
+    },
+    sidebarFold: {
+      get () {
+        return this.$store.state.common.sidebarFold
+      }
+    }
+  },
+  methods: {
+    resetDocumentClientHeightAndWidth () {
+      this.documentClientHeight = document.documentElement['clientHeight']
+      this.canvasWidth = document.documentElement['clientWidth'] - 300
+      window.onresize = () => {
+        this.documentClientHeight = document.documentElement['clientHeight']
+        this.canvasWidth = document.documentElement['clientWidth'] - 300
+      }
+    }
+  }
 }
 </script>

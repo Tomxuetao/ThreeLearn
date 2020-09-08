@@ -23,35 +23,35 @@
 import SidebarSubMenu from './main-sidebar-sub-menu'
 
 export default {
-    name: 'sidebar-sub-menu',
-    props: {
-        menu: {
-            type: Object,
-            required: true
-        },
-        dynamicMenuRoutes: {
-            type: Array,
-            required: true
-        }
+  name: 'sidebar-sub-menu',
+  props: {
+    menu: {
+      type: Object,
+      required: true
     },
-    components: {
-        SidebarSubMenu
-    },
-    computed: {
-        sidebarLayoutSkin: {
-            get () {
-                return this.$store.state.common.sidebarLayoutSkin
-            }
-        }
-    },
-    methods: {
-        // 通过menuId与动态(菜单)路由进行匹配跳转至指定路由
-        gotoRouteHandle (menu) {
-            let route = this.dynamicMenuRoutes.filter(item => item.meta.menuId === menu.menuId)
-            if (route.length >= 1) {
-                this.$router.push({ name: route[0].name })
-            }
-        }
+    dynamicMenuRoutes: {
+      type: Array,
+      required: true
     }
+  },
+  components: {
+    SidebarSubMenu
+  },
+  computed: {
+    sidebarLayoutSkin: {
+      get () {
+        return this.$store.state.common.sidebarLayoutSkin
+      }
+    }
+  },
+  methods: {
+    // 通过menuId与动态(菜单)路由进行匹配跳转至指定路由
+    gotoRouteHandle (menu) {
+      let route = this.dynamicMenuRoutes.filter(item => item.meta.menuId === menu.menuId)
+      if (route.length >= 1) {
+        this.$router.push({ name: route[0].name })
+      }
+    }
+  }
 }
 </script>
