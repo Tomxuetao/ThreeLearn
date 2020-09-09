@@ -6,7 +6,6 @@
 import * as THREE from 'three'
 import initSceneMixin from '@/mixin/initSceneMixin'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import FeatureCollection from '../../../../public/json/china.json'
 
 export default {
   name: 'custom',
@@ -45,25 +44,29 @@ export default {
       const provinceMaterial = new THREE.MeshBasicMaterial({ color: '#d13a34', transparent: true, opacity: 0.6 })
       const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff })
       const extrudeSettings = {
+        curveSegments: 1,
         depth: 4,
         bevelEnabled: false
       }
-      FeatureCollection.features.forEach(features => {
+      let featureCollection = require('../../../../public/json/china.json')
+      featureCollection.features.forEach(features => {
         const province3D = new THREE.Object3D()
         features.geometry.coordinates.forEach(multiPolygon => {
           multiPolygon.forEach(coordinates => {
             const shape = new THREE.Shape()
-            const linGeometry = new THREE.Geometry()
+            const lineGeometry = new THREE.BufferGeometry()
+            let lineVertices = []
             coordinates.forEach((coordinate, index) => {
               if (index === 0) {
                 shape.moveTo(coordinate[0], coordinate[1])
               }
               shape.lineTo(coordinate[0], coordinate[1])
-              linGeometry.vertices.push(new THREE.Vector3(coordinate[0], coordinate[1], 4.01))
+              lineVertices.push(...coordinate, 4.01)
             })
-            const extrudeGeometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
-            const provinceMesh = new THREE.Mesh(extrudeGeometry, provinceMaterial)
-            const provinceLine = new THREE.Line(linGeometry, lineMaterial)
+            lineGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(lineVertices), 3))
+            const extrudeBufferGeometry = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings)
+            const provinceMesh = new THREE.Mesh(extrudeBufferGeometry, provinceMaterial)
+            const provinceLine = new THREE.Line(lineGeometry, lineMaterial)
             province3D.add(provinceMesh)
             province3D.add(provinceLine)
           })
@@ -71,8 +74,7 @@ export default {
         // province3D.properties = features.properties
         this.threeScene.add(province3D)
       })
-
-      this.webGLRenderer.render(this.threeScene, this.threeCamera)
+      featureCollection = null
 
       const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
