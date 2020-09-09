@@ -81,6 +81,14 @@ export default [
         menuId: '5-0',
         code: null,
         list: []
+      },
+      {
+        name: '中国地图',
+        icon: 'daohang',
+        url: 'custom/china-map',
+        menuId: '5-1',
+        code: null,
+        list: []
       }
     ]
   }

@@ -27,10 +27,6 @@ export default {
     })
   },
 
-  beforeDestroy () {
-    document.getElementById('container').removeEventListener('click', this.onMouseClick, false)
-  },
-
   methods: {
     addSomethingToScene () {
       document.getElementById('container').appendChild(this.webGLRenderer.domElement)

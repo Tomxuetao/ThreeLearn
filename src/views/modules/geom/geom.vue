@@ -133,6 +133,9 @@ export default {
                 window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
       const animate = () => {
         this.animateId = requestAnimationFrame(animate)
+        this.threeCamera.lookAt(this.threeScene.position)
+        this.threeCamera.updateMatrixWorld()
+        this.raycaster.setFromCamera(this.mouseVector, this.threeCamera)
         this.mesh.rotation.x += 0.01
         this.mesh.rotation.y += 0.01
         this.webGLRenderer.render(this.threeScene, this.threeCamera)

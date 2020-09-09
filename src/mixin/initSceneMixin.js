@@ -61,17 +61,21 @@ export default {
 
   beforeDestroy () {
     console.log(this.threeScene)
+    this.webGLRenderer.clear(true, true, true)
+    this.webGLRenderer.dispose()
+    // 清空场景
+    this.threeScene.children = []
   },
 
   methods: {
     initScene (width, height) {
       this.threeScene = new THREE.Scene()
-      this.threeCamera = new THREE.PerspectiveCamera(50, width / height, 1, 10000)
+      this.threeCamera = new THREE.PerspectiveCamera(35, width / height, 1, 10000)
       this.threeCamera.position.z = 2500
       this.webGLRenderer = new THREE.WebGLRenderer({
         antialias: true
       })
-      this.webGLRenderer.autoClear = false
+      this.webGLRenderer.autoClear = true
       this.webGLRenderer.setSize(width, height)
       this.webGLRenderer.setPixelRatio(window.devicePixelRatio)
       this.webGLRenderer.enabled = true

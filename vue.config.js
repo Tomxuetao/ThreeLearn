@@ -1,21 +1,11 @@
 // vue.config.js
 const path = require('path')
-// 是否为生产环境
-const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = {
   publicPath: './',
   filenameHashing: false,
   // 生产环境是否生成 sourceMap 文件
   productionSourceMap: false,
-  configureWebpack: config => {
-    if (isProd) {
-      // 关闭代理
-      process.env.OPEN_PROXY = false
-    } else {
-      // 启用代理
-      process.env.OPEN_PROXY = true
-    }
-  },
   chainWebpack: config => {
     config.plugins.delete('preload')
     config.plugins.delete('prefetch')
@@ -40,11 +30,6 @@ module.exports = {
       .end()
       .use('file-loader')
       .loader('file-loader')
-    // 打包分析工具
-    // config
-    //     .plugin('webpack-bundle-analyzer')
-    //     .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
-    // html插件
     config
       .plugin('html')
       .tap(args => {

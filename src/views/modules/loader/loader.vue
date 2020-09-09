@@ -1,16 +1,16 @@
 <template>
-    <div id="container" style="width: 100%;height: 100%">
-        <div class="wrapper-select">
-            <el-select v-model="value" placeholder="请选择" style="width: 240px" @change="changeLoader">
-                <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-            </el-select>
-        </div>
+  <div id="container" style="width: 100%;height: 100%">
+    <div class="wrapper-select">
+      <el-select v-model="value" placeholder="请选择" style="width: 240px" @change="changeLoader">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
     </div>
+  </div>
 </template>
 
 <script>

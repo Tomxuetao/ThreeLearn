@@ -27,17 +27,15 @@
             :src="item.iframeUrl"
             width="100%" height="100%">
           </iframe>
-          <keep-alive v-else>
+          <template v-else>
             <router-view v-if="item.name === mainTabsActiveName"></router-view>
-          </keep-alive>
+          </template>
         </el-card>
       </el-tab-pane>
     </el-tabs>
     <!-- 主入口标签页 e -->
     <el-card v-else :body-style="siteContentViewHeight">
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+      <router-view></router-view>
     </el-card>
   </main>
 </template>
