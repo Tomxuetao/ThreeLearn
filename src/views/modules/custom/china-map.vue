@@ -58,9 +58,9 @@ export default {
             let lineVertices = []
             coordinates.forEach((coordinate, index) => {
               if (index === 0) {
-                shape.moveTo(coordinate[0], coordinate[1])
+                shape.moveTo(...coordinate)
               }
-              shape.lineTo(coordinate[0], coordinate[1])
+              shape.lineTo(...coordinate)
               lineVertices.push(...coordinate, 4.01)
             })
             lineGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(lineVertices), 3))

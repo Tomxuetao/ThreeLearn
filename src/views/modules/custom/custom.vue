@@ -157,8 +157,8 @@ export default {
     onMouseClick (event) {
       event.preventDefault()
       // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
-      this.mouseVector.x = (event.clientX / this.canvasWidth) * 2 - 1
-      this.mouseVector.y = -(event.clientY / this.canvasHeight) * 2 + 1
+      this.mouseVector.x = (event.clientX / window.innerWidth) * 2 - 1
+      this.mouseVector.y = -(event.clientY / window.innerHeight) * 2 + 1
       // 通过摄像机和鼠标位置更新射线
       this.raycaster.setFromCamera(this.mouseVector, this.threeCamera)
       let intersects = this.raycaster.intersectObjects(this.threeScene.children)

@@ -60,7 +60,6 @@ export default {
   },
 
   beforeDestroy () {
-    console.log(this.threeScene)
     this.webGLRenderer.clear(true, true, true)
     this.webGLRenderer.dispose()
     // 清空场景
