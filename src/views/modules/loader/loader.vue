@@ -15,11 +15,11 @@
 
 <script>
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { LoaderUtil } from '@/utils/loaderUtil'
 import initSceneMixin from '@/mixin/initSceneMixin'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
+import { LoaderUtil } from '@/utils/loaderUtil'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
 
 export default {
@@ -265,7 +265,6 @@ export default {
         colladaMesh.scale.set(100, 100, 100)
         colladaMesh.position.set(-656.715, -3437.28, -184.694)
         this.threeScene.add(colladaMesh)
-        console.log(colladaMesh.position)
         // this.threeCamera.lookAt(colladaMesh.position)
       })
 

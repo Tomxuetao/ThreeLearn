@@ -42,12 +42,17 @@ export default {
       this.threeScene.background = new THREE.Color(0xf0f0f0)
 
       // 实现参考地址：https://juejin.im/post/6844904054896885768#commentjue
+      const provinceMaterial = new THREE.MeshBasicMaterial({ color: '#d13a34', transparent: true, opacity: 0.6 })
+      const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff })
+      const extrudeSettings = {
+        depth: 4,
+        bevelEnabled: false
+      }
       FeatureCollection.features.forEach(features => {
         const province3D = new THREE.Object3D()
         features.geometry.coordinates.forEach(multiPolygon => {
           multiPolygon.forEach(coordinates => {
             const shape = new THREE.Shape()
-            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff })
             const linGeometry = new THREE.Geometry()
             coordinates.forEach((coordinate, index) => {
               if (index === 0) {
@@ -56,21 +61,18 @@ export default {
               shape.lineTo(coordinate[0], coordinate[1])
               linGeometry.vertices.push(new THREE.Vector3(coordinate[0], coordinate[1], 4.01))
             })
-            const extrudeSettings = {
-              depth: 4,
-              bevelEnabled: false
-            }
             const extrudeGeometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
-            const provinceMaterial = new THREE.MeshBasicMaterial({ color: '#d13a34', transparent: true, opacity: 0.6 })
             const provinceMesh = new THREE.Mesh(extrudeGeometry, provinceMaterial)
             const provinceLine = new THREE.Line(linGeometry, lineMaterial)
             province3D.add(provinceMesh)
             province3D.add(provinceLine)
           })
         })
-        province3D.properties = features.properties
+        // province3D.properties = features.properties
         this.threeScene.add(province3D)
       })
+
+      this.webGLRenderer.render(this.threeScene, this.threeCamera)
 
       const requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
